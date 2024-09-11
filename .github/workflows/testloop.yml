@@ -1,0 +1,23 @@
+name: listfiles
+
+on:
+  workflow_dispatch:
+
+jobs:
+  list-png-files:
+    runs-on: ubuntu-latest
+    outputs:
+      file: ${{ steps.set-files.outputs.file }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: set-files
+        run: echo "::set-output name=file::$(ls *.png | jq -R -s -c 'split("\n")[:-1]')"
+  check:
+    needs: list-png-files
+    runs-on: ubuntu-latest
+    strategy:
+        matrix:
+            file: ${{ fromJson(needs.list-png-files.outputs.file) }}
+    steps:
+      - run: |
+          echo "${{ matrix.file }}"
