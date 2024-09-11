@@ -25,5 +25,6 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-      - run: |
+      - name: print file  
+        run: |
           echo "${{ matrix.file }}"
