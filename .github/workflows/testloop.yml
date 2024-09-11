@@ -23,5 +23,7 @@ jobs:
         matrix:
             file: ${{ fromJson(needs.list-png-files.outputs.file) }}
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
       - run: |
           echo "${{ matrix.file }}"
