@@ -16,7 +16,7 @@ jobs:
         run: |
           for i in 1 2 3; do
             echo "Calling action $i"
-            ./github/actions/action.sh "$MY_ACTION"
+            "$MY_ACTION"
           done
 
      
