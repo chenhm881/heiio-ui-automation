@@ -7,17 +7,25 @@ on:
     branches: [ "master" ]
   workflow_dispatch:
 jobs:
-  build:
+   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Call Action in a Loop
-        env:
-          MY_ACTION: 'actions/checkout@v4'
-        run: |
-          for i in 1 2 3; do
-            echo "Calling action $i"
-            "$MY_ACTION"
-          done
+    - id: custom_matrix
+      run: |
+        matrix=("12" "14" "16")
+        for version in "${matrix[@]}"; do
+          echo "Node version: $version"
+          # 调用你的action，例如安装并测试node版本
+          node_install_and_test $version
+        done
+   node_install_and_test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-node@v2
+      with:
+        node-version: ${{ inputs.node-version }}
+    - run: npm install
+    - run: npm test         
 
      
           
